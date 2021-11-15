@@ -59,7 +59,7 @@ of one condition per line with a level of indentation that corresponds to each o
 </div>
 
 <div class="nb-cell program" name="citizenship">
-:- module('010+http://tests.com',[]).
+:- module('citizenship+https://www.legislation.gov.uk/ukpga/1981/61/body/',[]).
 
 en("the target language is: prolog.
 

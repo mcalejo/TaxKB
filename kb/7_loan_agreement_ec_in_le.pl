@@ -12,6 +12,9 @@ the meta predicates are:
   	*a thing* is different from *a second thing*, 
     it is illegal that *an event* at *a time*,
     
+the event predicates are:
+	 *a borrower* pays *an amount* to *a lender*. 
+    
 the templates are:
   *a day* ends, 
   it is *a date*,
@@ -48,18 +51,18 @@ the knowledge base loan agreement includes:
     
 % the event calculus general axioms
 	
-a fluent holds at a T
-    	if an event happens at a T1
-    	and T1 is before T
-    	and the event at T1 initiates the fluent 
+a fluent holds at a time T
+    	if an event happens at a time T1
+    	and time T1 is before time T
+    	and the event at time T1 initiates the fluent 
     	and it is not the case that
-    		the fluent is interrupted between T1 and T. 
+    		the fluent is interrupted between time T1 and time T. 
     
-a fluent is interrupted between a T1 and a T2
-    	if a second event happens at a T3
-    	and the second event at T3 terminates the fluent 
-    	and T1 is before T3
-    	and T3 is before T2.
+a fluent is interrupted between a time T1 and a time T2
+    	if a second event happens at a time T3
+    	and the second event at time T3 terminates the fluent 
+    	and time T1 is before time T3
+    	and time T3 is before time T2.
 
 % preliminars
 
@@ -98,7 +101,7 @@ each borrower pays each amount to each lender at each date initiates the borrowe
 
 % below still under review    
     
-it is illegal that a borrower pays an amount to a lender at a given date
+it is illegal that a borrower pays an amount to a lender, at a given date
     if an amount is due on a date from the borrower to the lender
     and the given date is different from the date.  
     

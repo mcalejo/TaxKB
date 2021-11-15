@@ -89,11 +89,14 @@ query three is:
     op(850,xfx,user:with), % to support querying
     op(800,fx,user:show), % to support querying
     op(850,xfx,user:of), % to support querying
-    dictionary/3, meta_dictionary/3
+    dictionary/3, meta_dictionary/3,
+    get_answer_from_goal/2, name_as_atom/2
     ]).
 :- use_module('./tokenize/prolog/tokenize.pl').
 :- use_module(library(pengines)).
 :- use_module('reasoner.pl').
+:- use_module(kp_loader).
+%:- use_module(kp_loader).
 :- thread_local text_size/1, error_notice/4, dict/3, meta_dict/3, example/2, 
                 last_nl_parsed/1, kbname/1, happens/2, initiates/3, terminates/3, is_type/1,
                 predicates/1, events/1, fluents/1, metapredicates/1, parsed/0.  
@@ -1730,7 +1733,7 @@ interrupted(T1, Fluent, T2) :- %trace,
 
 % experimental; BUG: apparently LE-originated clauses are not being asserted as in TaxLog; 
 % TODO: cleanup, refactor with answer(...)
-explainedAnswer(English,Unknowns,Explanation,Result) :- trace, 
+explainedAnswer(English,Unknowns,Explanation,Result) :- %trace, 
     (parsed -> true; fail), !, 
     pengine_self(SwishModule), 
     (translate_command(SwishModule, English, GoalName, Goal, Scenario) -> true 
@@ -1745,7 +1748,7 @@ explainedAnswer(English,Unknowns,Explanation,Result) :- trace,
             true;  print_message(error, "Scenario: ~w does not exist"-[Scenario]))), !,  
     %print_message(informational, "Facts: ~w"-[Facts]), 
     extract_goal_command(Goal, SwishModule, InnerGoal, Command), 
-    print_message(informational, "Command: ~w"-[Command]), trace, 
+    print_message(informational, "Command: ~w"-[Command]),
     query_with_facts(at(InnerGoal,SwishModule),Scenario,Unknowns,Explanation,Result),
     print_message(informational,"Result:~w, Explanation: ~w"-[Result,Explanation]),
     print_message(informational,"Unknowns: ~w"-[Unknowns]),
@@ -1778,7 +1781,7 @@ answer(English) :- %trace,
     setup_call_catcher_cleanup(assert_facts(SwishModule, Facts), 
             catch((trace, Command), Error, ( print_message(error, Error), fail ) ), 
             _Result, 
-            retract_facts(SwishModule, Facts)), trace, 
+            retract_facts(SwishModule, Facts)), 
     get_answer_from_goal(Goal, RawAnswer), name_as_atom(RawAnswer, EnglishAnswer),  
     print_message(informational, "Answer: ~w"-[EnglishAnswer]).
 
@@ -1810,7 +1813,7 @@ answer(English, Arg) :- %trace,
 
 % answer/3
 % answer(+English, with(+Scenario), -Result)
-answer(English, Arg, Answers) :-
+answer(English, Arg, EnglishAnswer) :-
     parsed, 
     pengine_self(SwishModule), 
     translate_command(SwishModule, English, _, Goal, PreScenario), % later -->, Kbs),
@@ -1823,19 +1826,21 @@ answer(English, Arg, Answers) :-
             catch(Command, Error, ( print_message(error, Error), fail ) ), 
             _Result, 
             retract_facts(SwishModule, Facts)),
-    get_answer_from_goal(Goal, Answers). 
+    get_answer_from_goal(Goal, RawAnswer), name_as_atom(RawAnswer, EnglishAnswer). 
     %reasoner:query_once_with_facts(Goal,Scenario,_,_E,Result).
 
 % answer/4
 % answer(+English, with(+Scenario), -Explanations, -Result) :-
-answer(English, Arg, E, Result) :- %trace,
-    parsed, !, pengine_self(SwishModule), 
+% answer(at(English, Module), Arg, E, Result) :- trace,
+answer(English, Arg, E, Result) :- 
+    parsed, !, myDeclaredModule(Module), 
+    pengine_self(SwishModule), 
     translate_command(SwishModule, English, _, Goal, PreScenario), 
     ((Arg = with(ScenarioName), PreScenario=noscenario) -> Scenario=ScenarioName; Scenario=PreScenario), 
     extract_goal_command(Goal, SwishModule, InnerGoal, _Command),
     (Scenario==noscenario -> Facts = [] ; SwishModule:example(Scenario, [scenario(Facts, _)])), !, 
     setup_call_catcher_cleanup(assert_facts(SwishModule, Facts), 
-            catch((trace, query(at(InnerGoal, SwishModule),_,E,Result)), Error, ( print_message(error, Error), fail ) ), 
+            catch((true, query(at(InnerGoal, Module),_,E,Result)), Error, ( print_message(error, Error), fail ) ), 
             _Result, 
             retract_facts(SwishModule, Facts)). 
 
