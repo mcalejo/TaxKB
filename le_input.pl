@@ -1595,13 +1595,41 @@ dictionary(Predicate, VariablesNames, Template) :- % dict(Predicate, VariablesNa
 % predef_dict/3 is a database with predefined templates for LE
 % it must be ordered by the side of the third argument, to allow the system to check first the longer template
 % with the corresponding starting words. 
-%predef_dict([days_spent_in_uk,Individual,Start,End,TotalDays], [who-person,start-date,end-date,total-number], 
-%                    [Individual, spent, TotalDays, in, the, 'UK', starting, at, Start, &, ending, at, End]). 
-%predef_dict([uk_tax_year_for_date,Date,Year,Start,End], [first_date-date, year-year, second_date-date, third_date-date], 
-%                    [in, the, 'UK', Date, falls, in, Year, beginning, at, Start, &, ending, at, End]).
-%predef_dict([myDB_entities:is_individual_or_company_on, A, B],
-%                    [affiliate-affiliate, date-date],
-%                    [A, is, an, individual, or, is, a, company, at, B]).
+% for Taxlog examples
+predef_dict(['\'s_R&D_expense_credit_is', Project, ExtraDeduction, TaxCredit], 
+                                 [project-projectid, extra-amount, credit-amount],
+   [Project, '\'s', 'R&D', expense, credit, is, TaxCredit, plus, ExtraDeduction]).
+predef_dict(['can_request_R&D_relief_such_as', Project, ExtraDeduction, TaxCredit], 
+                                 [project-projectid, extra-amount, credit-amount],
+   [Project, can, request,'R&D', relief, for, a, credit, of, TaxCredit, with, a, deduction, of, ExtraDeduction]).
+predef_dict(['\'s_sme_R&D_relief_is', Project, ExtraDeduction, TaxCredit], 
+                                 [project-projectid, extra-amount, credit-amount],
+   [the, 'SME', 'R&D', relief, for, Project, is, estimated, at, TaxCredit, with, an, extra, of, ExtraDeduction]).
+predef_dict([project_subject_experts_list_is,Project,Experts], [project-object, experts_list-list],
+   [Project, has, an, Experts, list]).
+predef_dict([rollover_applies,EventID,Asset,Time,Transferor,TransfereesList], [id-event,asset-asset,when-time,from-person,to-list], 
+   [EventID, rollover, of, the, transfer, of, Asset, from, Transferor, to, TransfereesList, at, Time, applies]).
+predef_dict([transfer_event,ID,Asset,Time,Transferor,TransfereesList],[id-id,asset-asset,time-time,from-person,to-list],
+   [event, ID, of, transfering, Asset, from, Transferor, to, TransfereesList, at, Time, occurs]).
+predef_dict([s_type_and_liability_are(Asset,Type,Liability), [asset-asset, assettype-type, liabilty-amount],
+   [the, type, of, asset, Asset, is, Type, its, liability, is, Liability]]).
+predef_dict([exempt_transfer,From,To,SecurityIdentifier,Time],[from-taxpayer,to-taxpayer,secID-number, time-time],
+   [a, transfer, from, From, to, To, with, SecurityIdentifier, at, Time, is, exempt]).
+predef_dict([shares_transfer,Sender,Recipient,SecurityID,Time], [from-person, to-person, id-number, time-time], 
+   [Sender, transfers, shares, to, Recipient, at, Time, with, id, SecurityID]).
+predef_dict([trading_in_market,SecurityID,MarketID,Time], [id-number,market-number,time-time], 
+   [whoever, is, identified,by, SecurityID, is, trading, in, market, MarketID, at, Time]).
+predef_dict([uk_tax_year_for_date,Date,Year,Start,End], [date-date,year-year,start-date,end-date], 
+   [date, Date, falls, in, the, 'UK', tax, year, Year, that, starts, at, Start, ends, at, End]).
+predef_dict([days_spent_in_uk,Individual,Start,End,TotalDays], [who-person,start-date,end-date,total-number], 
+   [Individual, spent, TotalDays, days, in, the, 'UK', starting, at, Start, ending, at, End]).
+predef_dict([days_spent_in_uk,Individual,Start,End,TotalDays], [who-person,start-date,end-date,total-number], 
+                   [Individual, spent, TotalDays, in, the, 'UK', starting, at, Start, &, ending, at, End]). 
+predef_dict([uk_tax_year_for_date,Date,Year,Start,End], [first_date-date, year-year, second_date-date, third_date-date], 
+                   [in, the, 'UK', Date, falls, in, Year, beginning, at, Start, &, ending, at, End]).
+predef_dict([myDB_entities:is_individual_or_company_on, A, B],
+                   [affiliate-affiliate, date-date],
+                   [A, is, an, individual, or, is, a, company, at, B]).
 % Prolog
 predef_dict([has_as_head_before, A, B, C], [list-list, symbol-term, rest_of_list-list], [A, has, B, as, head, before, C]).
 predef_dict([append, A, B, C],[first_list-list, second_list-list, third_list-list], [appending, A, then, B, gives, C]).
