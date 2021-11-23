@@ -20,10 +20,14 @@ Initial copyright holders by country: LodgeIT (AU), AORA Law (UK), Bob Kowalski 
 
 Special thanks to: Andrew Noble, Chris Mennell and Bruce Mennell
 
-
 ## RoadMap
 
-Soon to be published
+1. **Improve the error detection system** for better pinpointing of error location and cause.
+2. **Develop and improve the existing LE explanation facility**, with a view to using it as an alternative to the Prolog debugger.
+3. **Add a facility to name rules**, initially to refer to them in the explainer, but eventually to incorporate naming of rules with rule priorities, to deal with hierarchies of rules and exceptions. Note that the resulting implementation of defeasibility can be accomplished either by means of a meta-interpreter, or by compiling rule priorities into lower-level Prolog rules with explicit negative conditions.
+4. **Add a facility for naming and combining knowledge bases**, with a view to obtaining some of the functionality of object-oriented systems, including inheritance and overriding.
+5. **Add a treatment of common nouns as types**.
+6. **Develop an editor for LE** with syntax and semantic highlighting, and error detection.
 
 ##  <a name='Releases'></a>Release Notes
 
@@ -36,3 +40,4 @@ Soon to be published
 	- Correcting the use of dictionary/3 in le_output
 - [2021-11-08] Beta testing. 
 	- Adding extract_variable_template/7 as specific predicates for templates. Fixing bug in output of answers with dates. 
+- [2021-11-23] Updating the roadmap. Previous version: [c4d67e9e0dbc54356473b284c9b72725c6504673](https://github.com/mcalejo/TaxKB/commit/c4d67e9e0dbc54356473b284c9b72725c6504673)
