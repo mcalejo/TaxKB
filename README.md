@@ -1,5 +1,11 @@
 # TaxLog and Logical English projects - PRELIMINARY
 
+# On November 30, 2021 THIS REPOSITORY HAS BEEN FROZEN. PLEASE VISIT INSTEAD:
+
+## <https://github.com/LogicalContracts/LogicalEnglish>
+
+---
+
 For more about TaxLog see [TaxLog.md](TaxLog.md) file.
 
 For a general Introduction to Logical English, LE, (in PDF): [Handbook](le_handbook.pdf). 
